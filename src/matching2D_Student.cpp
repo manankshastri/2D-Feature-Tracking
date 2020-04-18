@@ -20,7 +20,6 @@ void matchDescriptors(std::vector<cv::KeyPoint> &kPtsSource, std::vector<cv::Key
             descSource.convertTo(descSource, CV_32F);
             descRef.convertTo(descRef, CV_32F);
         }
-
         // FLANN matching
         matcher = cv::DescriptorMatcher::create(cv::DescriptorMatcher::FLANNBASED);
         cout<<"FLANN matching"<<endl;

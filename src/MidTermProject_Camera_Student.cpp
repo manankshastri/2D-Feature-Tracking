@@ -40,11 +40,12 @@ int main(int argc, const char *argv[]) {
     bool bVis = false;            // visualize results
 
     int matchedKeypoints = 0;
+    
     // logging results
-    ofstream result1;
+    // ofstream result1;
 
-    result1.open("../result1.csv", fstream::out | fstream::app);
-    result1<<"imgIndex"<<","<<"detectorType"<<","<<"descriptorType"<<","<<""<<"matchedKeypoints"<<","<<"totalTime"<<","<<endl;
+    // result1.open("../result1.csv", fstream::out | fstream::app);
+    // result1<<"imgIndex"<<","<<"detectorType"<<","<<"descriptorType"<<","<<""<<"matchedKeypoints"<<","<<"totalTime"<<","<<endl;
     /* MAIN LOOP OVER ALL IMAGES */
 
     for (size_t imgIndex = 0; imgIndex <= imgEndIndex - imgStartIndex; imgIndex++) {
@@ -67,12 +68,12 @@ int main(int argc, const char *argv[]) {
         DataFrame frame;
         frame.cameraImg = imgGray;
         
-        if (dataBuffer.size() < dataBufferSize) {
-            dataBuffer.push_back(frame);
+        if (dataBuffer.size() < dataBufferSize) {  
+            dataBuffer.push_back(frame);            // if the size is within the dataBufferSize; push a new image
             cout<<"Pushed a new image.."<<endl;
         }
         else {
-            dataBuffer.erase(dataBuffer.begin());
+            dataBuffer.erase(dataBuffer.begin());  // else, remove the oldest image, and then push the new image
             dataBuffer.push_back(frame);
             cout<<"Removed the oldest image.."<<endl;
         }
@@ -84,7 +85,7 @@ int main(int argc, const char *argv[]) {
 
         // extract 2D keypoints from current image
         vector<cv::KeyPoint> keypoints; // create empty feature list for current image
-        string detectorType = "SIFT";
+        string detectorType = "FAST";
 
         double detectorTime;
         int detectorKeypoints;
@@ -94,14 +95,14 @@ int main(int argc, const char *argv[]) {
         //// -> HARRIS, FAST, BRISK, ORB, AKAZE, SIFT
 
         if (detectorType.compare("SHITOMASI") == 0) {
-            detKeypointsShiTomasi(keypoints, imgGray, detectorTime, detectorKeypoints, false);
+            detKeypointsShiTomasi(keypoints, imgGray, detectorTime, detectorKeypoints, true);
         }
         else if (detectorType.compare("HARRIS") == 0) {
-            detKeypointsHarris(keypoints, imgGray, detectorTime, detectorKeypoints, false);
+            detKeypointsHarris(keypoints, imgGray, detectorTime, detectorKeypoints, true);
         }
         else if (detectorType.compare("FAST") == 0 || detectorType.compare("BRISK") == 0 || detectorType.compare("ORB") == 0 || 
                  detectorType.compare("AKAZE") == 0 || detectorType.compare("SIFT") == 0) {
-            detKeypointsModern(keypoints, imgGray, detectorType, detectorTime, detectorKeypoints, false);
+            detKeypointsModern(keypoints, imgGray, detectorType, detectorTime, detectorKeypoints, true);
         }
         else {
             throw invalid_argument(detectorType + " is not a valid type!!");
@@ -154,7 +155,7 @@ int main(int argc, const char *argv[]) {
 
         cv::Mat descriptors;
         double descriptorTime;
-        string descriptorType = "SIFT"; // BRIEF, ORB, FREAK, AKAZE, SIFT
+        string descriptorType = "BRIEF"; // BRIEF, ORB, FREAK, AKAZE, SIFT
         descKeypoints((dataBuffer.end() - 1)->keypoints, (dataBuffer.end() - 1)->cameraImg, descriptors, descriptorType, descriptorTime);
         //// EOF STUDENT ASSIGNMENT
 
@@ -170,7 +171,7 @@ int main(int argc, const char *argv[]) {
 
             vector<cv::DMatch> matches;
             string matcherType = "MAT_BF";        // MAT_BF, MAT_FLANN
-            string descriptorType = "DES_HOG"; // DES_BINARY, DES_HOG
+            string descriptorType = "DES_BINARY"; // DES_BINARY, DES_HOG
             string selectorType = "SEL_KNN";       // SEL_NN, SEL_KNN
 
             //// STUDENT ASSIGNMENT
@@ -190,7 +191,7 @@ int main(int argc, const char *argv[]) {
             cout << "#4 : MATCH KEYPOINT DESCRIPTORS done" << endl;
 
             // visualize matches between current and previous image
-            bVis = false;
+            bVis = true;
             if (bVis) {
                 cv::Mat matchImg = ((dataBuffer.end() - 1)->cameraImg).clone();
                 cv::drawMatches((dataBuffer.end() - 2)->cameraImg, (dataBuffer.end() - 2)->keypoints,
@@ -209,7 +210,7 @@ int main(int argc, const char *argv[]) {
 
         }
         cout<<"\n---------------------\n";
-        result1<<imgIndex + 1<<","<<detectorType<<","<<descriptorType<<","<<matchedKeypoints<<","<<detectorTime + descriptorTime<<","<<endl;
+        // result1<<imgIndex + 1<<","<<detectorType<<","<<descriptorType<<","<<matchedKeypoints<<","<<detectorTime + descriptorTime<<","<<endl;
     } // eof loop over all images
 
     return 0;
