@@ -2,12 +2,13 @@
 
 <img src="images/keypoints.png" width="820" height="248" />
 
-This project focusses on building the feature tracking part and test various detector / descriptor combinations to see which ones perform best. It consists of four parts:
+This project focusses on building the feature tracking part and test various detector/descriptor combinations to see which ones perform best. It consists of four parts:
 
-* First, we will focus on loading images, setting up data structures and putting everything into a ring buffer to optimize memory load. 
-* Then, we will integrate several keypoint detectors - SHI-TOMASI, HARRIS, FAST, BRISK, ORB, AKAZE and SIFT and compare them with regard to number of keypoints and speed. 
+* First, we will focus on loading images, setting up data structures, and putting everything into a ring buffer to optimize memory load.
+* Then, we will integrate several keypoint detectors - SHI-TOMASI, HARRIS, FAST, BRISK, ORB, AKAZE, and SIFT and compare them concerning the number of keypoints and speed.
 * In the next part, we will then focus on descriptor extraction and matching using brute force and also the FLANN approach.
-* In the last part, once the code framework is complete, we will test the various algorithms in different combinations and compare them with regard to some performance measures. 
+* In the last part, once the code framework is complete, we will test the various algorithms in different combinations and compare them about some performance measures.
+
 
 ## Dependencies for Running Locally
 * cmake >= 2.8
