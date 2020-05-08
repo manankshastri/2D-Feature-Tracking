@@ -1,6 +1,6 @@
 # 2D Feature Tracking
 
-<img src="results/output-matches.gif" height="248" />
+<img src="results/outputX-matches.gif" height="248" />
 
 This project focusses on building the feature tracking part and test various detector/descriptor combinations to see which ones perform best. It consists of four parts:
 
