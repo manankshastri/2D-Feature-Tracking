@@ -1,4 +1,4 @@
-# SFND 2D Feature Tracking
+# 2D Feature Tracking
 
 <img src="results/output-matches.gif" height="248" />
 
